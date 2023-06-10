@@ -21,7 +21,6 @@ def dashboard():
     if joined_rides:
         for ride in joined_rides:
             list_joined_rides.append(ride['ride_id'])
-        
     return render_template("dashboard.html", user=user, rides=rides, list_joined_rides=list_joined_rides)
 
 
@@ -54,51 +53,6 @@ def delete_ride(id):
     Ride.delete_ride(del_data)
     JoinRide.remove_from_joins(del_data)
     return redirect('/dashboard')
-
-
-# #===================Showing a Book==============================
-# @app.route('/books/<int:id>')
-# def show_book(id):
-#     if 'user_id' not in session:
-#         return redirect('/logout')
-#     book_data = {
-#         "book_id":id
-#     }
-#     user_data = {
-#         "id":session['user_id']
-#     }
-#     book = Book.get_one_book(book_data)
-#     user = User.get_user_by_id(user_data)
-#     favorited_users = Favorite.get_all_favorites_for_book(book_data)
-#     return render_template("creator.html", book=book, user=user, fav_users=favorited_users)
-
-
-# #===================Updating a Book==============================
-# @app.route('/books/update/<int:id>', methods=['POST'])
-# def update_book(id):
-#     if 'user_id' not in session:
-#         return redirect('/logout')
-#     if not Book.validate_book(request.form):
-#         return redirect('/books/<int:id>')
-#     data = {
-#         "id": id,
-#         "title": request.form["title"],
-#         "description": request.form["description"]
-#     }
-#     Book.update_book(data)
-#     return redirect('/books')
-
-
-# #===================Deleting a Book==============================
-# @app.route('/books/delete/<int:id>', methods=['POST'])
-# def delete_book(id):
-#     if 'user_id' not in session:
-#         return redirect('/logout')
-#     data = {
-#         "id": id
-#     }
-#     Book.delete_book(data)
-#     return redirect('/books')
 
 
 #===================Logout method==============================

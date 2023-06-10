@@ -1,6 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 from flask_app import DATABASE
+from datetime import datetime
 
 
 class Ride:
@@ -35,7 +36,7 @@ class Ride:
     def get_one_ride(cls, data):
         query = "SELECT rides.id as id, rides.from_location as from_location, rides.to_location as to_location, rides.when_time as when_time, rides.seats as seats, rides.user_id as user_id, rides.created_at as created_at, rides.updated_at as updated_at, users.id as users_id, users.first_name as first_name, users.last_name as last_name FROM rides JOIN users ON users.id = user_id WHERE rides.id = %(ride_id)s;"
         results = connectToMySQL(DATABASE).query_db(query, data)
-        return results[0]
+        return results[0] if results else None
     
     #===================Updating a ride by id==============================
     @classmethod
@@ -59,4 +60,9 @@ class Ride:
         if len(data_ride['to_location']) < 1:
             is_valid = False
             flash("You can't add a ride without adding the destination!","ride")
+        when_time = datetime.strptime(data_ride['when_time'], "%Y-%m-%d")  # Convert string to datetime object
+        current_time = datetime.now()
+        if when_time <= current_time:
+            flash("The ride's time can only be in the future!", "ride")
+            is_valid = False
         return is_valid

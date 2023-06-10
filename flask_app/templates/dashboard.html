@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rides dashboard</title>
+    <!-- Linked Styles to the Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <!-- Some customized styiles for the background image and transparency -->
+    <style>
+        .transparent-box {
+            background: transparent;
+            backdrop-filter: blur(3px);
+            box-sizing: border-box;
+            padding: 20px;
+        }
+        .transparent-form{
+            background: transparent;
+            backdrop-filter: blur(3px);
+            border-color:gray;
+        }
+        body {
+            background-repeat: repeat;
+            background-image: url("../static/img/bg_ride.png");  
+            background-size: initial;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- The navigation part of the page -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <h1 class="navbar-brand" >Welcome, {{user.first_name}}!</h1>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto"></ul>
+                <form class="d-flex" action="/logout" method="GET">
+                    <button class="btn btn-secondary" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!-- The body part of the page -->
+    <div class="container transparent-box">
+        <div class="row">
+            <!-- Section to add new book -->
+            <div class="col-6">
+                <h1 class="text-light">Add a New Ride</h1>
+                <form action="/add_new_ride" method="post">
+                    {% with messages = get_flashed_messages(category_filter=['ride']) %}
+                        {% if messages %}
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Warning!!</strong>
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <div class="mb-3 mt-3">
+                        <label for="from_location" class="form-label text-light">From:</label>
+                        <input type="text" class="form-control transparent-form text-bg-dark" placeholder="Type the starting location" name="from_location" required>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="to_location" class="form-label text-light">To:</label>
+                        <input type="text" class="form-control transparent-form text-bg-dark" placeholder="Type the destination" name="to_location" required>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="when_time" class="form-label text-light">When:</label>
+                        <input type="date" name="when_time" class="form-control transparent-form text-bg-dark" required>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="seats" class="form-label text-light">Places:</label>
+                        <input type="number" class="form-control transparent-form text-bg-dark" placeholder="Type the number of seats" name="seats" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Add</button>
+                </form>
+                <h1 class="text-light">Joined Rides</h1>
+                {% for ride in rides_list %}
+
+                {% endfor %}
+            </div>
+
+            <!-- Section that shows all the current books in the database -->
+            <div class="col-6">
+                <h1 class="text-light">All Rides</h1>
+                {% for ride in rides %}
+                <div class="card transparent-box mt-2 mb-2">
+                    <div class="card-body">
+                        <h4 class="card-title text-light">From: {{ride.from_location}}</h4>
+                        <h4 class="card-title text-light">To: {{ride.to_location}}</h4>
+                        <p class="card-text text-light">This ride has been added by: {{ride.first_name}} {{ride.last_name}}</p>
+                        <a href="/dashboard/{{ride.id}}" class="btn btn-primary">Proceed to the ride</a>
+                        {% if ride.user_id == user.id %}
+                            <p class="card-text text-secondary"><i>You created this ride</i></p>
+                            <a href="/dashboard/destroy_ride/{{ride.id}}" class="btn btn-danger">Delete this ride</a>
+                        {% elif list_joined_rides and ride.id in list_joined_rides %}
+                            <a href="/dashboard/quit_ride/{{ride.id}}" class="btn btn-danger">Quit this ride</a>
+                        {% else %}
+                            <a href="/dashboard/joing_ride/{{ride.id}}" class="btn btn-success">Join this ride</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Linked Scripts to the Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

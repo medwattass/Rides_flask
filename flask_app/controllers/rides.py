@@ -105,4 +105,4 @@ def delete_ride(id):
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect('/')
+    return redirect('/log_page')

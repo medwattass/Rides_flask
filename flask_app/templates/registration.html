@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login & Registration</title>
+    <!-- Linked Styles to the Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <!-- Some customized styiles for the background image and transparency -->
+    <style>
+        .transparent-box {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            padding: 40px;
+            margin: 20px auto;
+            transform: translate(-50%, -55%);
+            background: transparent;
+            backdrop-filter: blur(3px);
+            box-sizing: border-box;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+            border-radius: 10px;
+        }
+        body {
+            background-repeat: no-repeat;
+            background-image: url("../static/img/bg_ride.png");  
+            background-size: initial;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="vh-100 bg-image" >
+        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card transparent-box" style="border-radius: 15px;">
+                            <div class="card-body p-5">
+                                <h2 class="text-uppercase text-center mb-5 text-light">Create an account</h2>
+                                <form action="/register" method="post">
+                                    {% with messages = get_flashed_messages(category_filter=['register']) %}
+                                        {% if messages %}
+                                            <div class="alert alert-danger" role="alert">
+                                            <strong>Warning!!</strong>
+                                            {% for message in messages %}
+                                                <p>{{message}}</p>
+                                            {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% endwith %}
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label text-light" for="first_name">First Name</label>
+                                        <input type="text" id="first_name" name="first_name" class="form-control form-control-lg" required/>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label text-light" for="last_name">Last Name</label>
+                                        <input type="text" id="last_name" name="last_name" class="form-control form-control-lg" required/>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label text-light" for="email">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control form-control-lg" required/>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label text-light" for="password">Password</label>
+                                        <input type="password" id="password" name="password" class="form-control form-control-lg" required/>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label text-light" for="confirmation">Repeat your password</label>
+                                        <input type="password" id="confirmation" name="confirmation" class="form-control form-control-lg" required/>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <input type="submit" value="Register"
+                                            class="btn btn-light btn-block btn-lg gradient-custom-4 text-body">
+                                    </div>
+                                    <p class="text-center text-muted mt-5 mb-0 text-light"><span class="text-light">Have already an account? </span><a href="/log_page" class="fw-bold text-body"><u class="text-light">Login here</u></a></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Linked Scripts to the Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

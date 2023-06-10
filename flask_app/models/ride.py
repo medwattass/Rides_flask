@@ -23,7 +23,7 @@ class Ride:
     #===================Getting all rides in the DB==============================
     @classmethod
     def get_all_rides(cls):
-        query = "SELECT * FROM rides;"
+        query = "SELECT rides.id as id, rides.from_location as from_location, rides.to_location as to_location, rides.when_time as when_time, rides.seats as seats, rides.user_id as user_id, rides.created_at as created_at, rides.updated_at as updated_at, users.id as users_id, users.first_name as first_name, users.last_name as last_name FROM rides JOIN users ON users.id = user_id ;"
         results =  connectToMySQL(DATABASE).query_db(query)
         all_books = []
         for row in results:

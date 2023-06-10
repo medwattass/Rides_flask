@@ -35,7 +35,6 @@ def login():
         "email": request.form['email']
     }
     user = User.get_by_email(data)
-    print("**********************************")
     if not user:
         flash("Invalid Email/Password","login")
         return redirect("/")
